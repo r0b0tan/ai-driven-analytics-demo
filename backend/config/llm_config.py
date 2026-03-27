@@ -11,9 +11,9 @@ OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 PROVIDER_MODELS = {
     "ollama": ["llama3.2:latest", "llama3.1:8b", "mistral:latest"],
     "groq": [
-        "llama3-70b-8192",
-        "llama3-8b-8192",
-        "mixtral-8x7b-32768",
-        "gemma2-9b-it",
+        "llama-3.3-70b-versatile",
+        "llama-3.1-8b-instant",
+        "qwen/qwen3-32b",
+        "openai/gpt-oss-120b",
     ],
 }

@@ -1,10 +1,11 @@
 import os
+import re
 from .base_provider import BaseLLMProvider
 
 
 class GroqProvider(BaseLLMProvider):
 
-    def __init__(self, model: str = "llama3-70b-8192"):
+    def __init__(self, model: str = "llama-3.3-70b-versatile"):
         try:
             from groq import Groq
         except ImportError:
@@ -24,4 +25,5 @@ class GroqProvider(BaseLLMProvider):
             temperature=0.2,
             max_tokens=1024,
         )
-        return response.choices[0].message.content
+        content = response.choices[0].message.content
+        return re.sub(r"<think>.*?</think>\s*", "", content, flags=re.DOTALL)
