@@ -1,0 +1,27 @@
+import os
+from .base_provider import BaseLLMProvider
+
+
+class GroqProvider(BaseLLMProvider):
+
+    def __init__(self, model: str = "llama3-70b-8192"):
+        try:
+            from groq import Groq
+        except ImportError:
+            raise ImportError("groq package not installed. Run: pip install groq")
+
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key:
+            raise ValueError("GROQ_API_KEY environment variable not set")
+
+        self.client = Groq(api_key=api_key)
+        self.model = model
+
+    def generate(self, messages: list[dict]) -> str:
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=messages,
+            temperature=0.2,
+            max_tokens=1024,
+        )
+        return response.choices[0].message.content
