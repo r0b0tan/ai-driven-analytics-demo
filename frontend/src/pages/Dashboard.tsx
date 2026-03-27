@@ -62,10 +62,10 @@ export default function Dashboard() {
           <span className="sidebar__name">AI Analytics</span>
         </div>
         <nav className="sidebar__nav">
-          <a href="#" className="sidebar__link sidebar__link--active">Investigation</a>
-          <a href="#" className="sidebar__link">Evidence</a>
-          <a href="#" className="sidebar__link">Insights</a>
-          <a href="#" className="sidebar__link">Suggestions</a>
+          <a href="#investigation" className="sidebar__link sidebar__link--active">Investigation</a>
+          <a href="#evidence" className="sidebar__link">Evidence</a>
+          <a href="#insights" className="sidebar__link">Insights</a>
+          <a href="#suggestions" className="sidebar__link">Suggestions</a>
         </nav>
         <div className="sidebar__section-title">LLM</div>
         <ModelSelector />
@@ -81,7 +81,7 @@ export default function Dashboard() {
         </header>
 
         {/* Question → Investigation → Evidence → Insights → Suggestions */}
-        <section className="section">
+        <section id="investigation" className="section">
           <QuestionPanel onSubmit={handleQuestion} loading={loading} />
         </section>
 
@@ -111,11 +111,11 @@ export default function Dashboard() {
           </section>
         )}
 
-        <section className="section">
+        <section id="evidence" className="section">
           <EvidencePanel />
         </section>
 
-        <section className="section">
+        <section id="insights" className="section">
           <h3 className="section-title">
             Insights
             {dataLoading && <span className="text-muted"> loading…</span>}
@@ -138,7 +138,7 @@ export default function Dashboard() {
           </div>
         </section>
 
-        <section className="section">
+        <section id="suggestions" className="section">
           <h3 className="section-title">
             Recommendations
             {dataLoading && <span className="text-muted"> loading…</span>}
