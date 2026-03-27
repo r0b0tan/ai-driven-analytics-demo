@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { getInsights, getSuggestions, investigate } from "../api/client";
 import type { Insight, InvestigationResult, PipelineStep, Suggestion } from "../types";
 import EvidencePanel from "../components/EvidencePanel";
@@ -8,6 +8,8 @@ import ModelSelector from "../components/ModelSelector";
 import QuestionPanel from "../components/QuestionPanel";
 import SuggestionCard from "../components/SuggestionCard";
 
+const SECTIONS = ["investigation", "evidence", "insights", "suggestions"] as const;
+
 export default function Dashboard() {
   const [insights, setInsights] = useState<Insight[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -16,6 +18,35 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState("investigation");
+  const clickLockRef = useRef(false);
+
+  // Click sets active immediately, pauses scroll detection briefly
+  const handleNavClick = useCallback((id: string) => {
+    setActiveSection(id);
+    clickLockRef.current = true;
+    setTimeout(() => { clickLockRef.current = false; }, 800);
+  }, []);
+
+  // Track which section is visible on scroll (disabled briefly after click)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (clickLockRef.current) return;
+      let current = SECTIONS[0];
+      for (const id of SECTIONS) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 150) {
+            current = id;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Load insights and suggestions on mount
   useEffect(() => {
@@ -62,10 +93,16 @@ export default function Dashboard() {
           <span className="sidebar__name">AI Analytics</span>
         </div>
         <nav className="sidebar__nav">
-          <a href="#investigation" className="sidebar__link sidebar__link--active">Investigation</a>
-          <a href="#evidence" className="sidebar__link">Evidence</a>
-          <a href="#insights" className="sidebar__link">Insights</a>
-          <a href="#suggestions" className="sidebar__link">Suggestions</a>
+          {SECTIONS.map((id) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={() => handleNavClick(id)}
+              className={`sidebar__link${activeSection === id ? " sidebar__link--active" : ""}`}
+            >
+              {id.charAt(0).toUpperCase() + id.slice(1)}
+            </a>
+          ))}
         </nav>
         <div className="sidebar__section-title">LLM</div>
         <ModelSelector />
