@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { explainSuggestion } from "../api/client";
 import type { Suggestion } from "../types";
 
@@ -63,7 +64,7 @@ export default function SuggestionCard({ suggestion }: Props) {
       {local.ai_explanation && (
         <div className="suggestion-card__ai-explanation">
           <span className="ai-badge">AI Explanation</span>
-          <p>{local.ai_explanation}</p>
+          <ReactMarkdown>{local.ai_explanation}</ReactMarkdown>
         </div>
       )}
 

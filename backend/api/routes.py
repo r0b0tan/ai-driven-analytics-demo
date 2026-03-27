@@ -241,12 +241,35 @@ def investigate(req: QuestionRequest):
     insights = generate_insights(pipeline)
     suggestions = generate_suggestions(insights, pipeline)
 
+    # Find all anomalies relevant to the question (matching campaign names)
+    question_lower = req.question.lower()
+    all_anomalies = pipeline["anomalies"]
+    relevant_anomalies = [
+        a for a in all_anomalies
+        if a.get("campaign", "").lower() in question_lower
+    ]
+    # Fall back to top anomalies if none match
+    if not relevant_anomalies:
+        relevant_anomalies = all_anomalies[:5]
+    else:
+        relevant_anomalies = relevant_anomalies[:10]
+
+    # Build per-campaign daily timeseries for campaigns mentioned in the question
+    dataset = _get_dataset()
+    timeseries_context: dict[str, list[dict[str, Any]]] = {}
+    for campaign_name, records in dataset.items():
+        if campaign_name.lower() in question_lower:
+            daily = aggregate_daily(records)
+            timeseries_context[campaign_name] = daily
+
     context = {
         "question": req.question,
-        "top_anomalies": [a for a in pipeline["anomalies"][:3]],
+        "relevant_anomalies": relevant_anomalies[:10],
+        "all_anomaly_count": len(all_anomalies),
         "kpi_summary": pipeline["kpi_summary"],
-        "top_insights": [i.to_dict() for i in insights[:3]],
-        "top_suggestions": [s.to_dict() for s in suggestions[:2]],
+        "top_insights": [i.to_dict() for i in insights[:5]],
+        "top_suggestions": [s.to_dict() for s in suggestions[:3]],
+        "timeseries": timeseries_context,
         "pipeline_steps": pipeline["pipeline_steps"],
     }
 
@@ -260,9 +283,9 @@ def investigate(req: QuestionRequest):
         "question": req.question,
         "answer": answer,
         "evidence": {
-            "anomalies": pipeline["anomalies"][:3],
-            "insights": [i.to_dict() for i in insights[:3]],
-            "suggestions": [s.to_dict() for s in suggestions[:2]],
+            "anomalies": relevant_anomalies[:5],
+            "insights": [i.to_dict() for i in insights[:5]],
+            "suggestions": [s.to_dict() for s in suggestions[:3]],
         },
         "pipeline_steps": pipeline["pipeline_steps"],
     }

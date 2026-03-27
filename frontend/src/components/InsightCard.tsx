@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { explainInsight } from "../api/client";
 import type { Insight } from "../types";
 
@@ -109,7 +110,7 @@ export default function InsightCard({ insight, onExplained }: Props) {
       {localInsight.ai_explanation ? (
         <div className="insight-card__ai-explanation">
           <span className="ai-badge">AI Explanation</span>
-          <p>{localInsight.ai_explanation}</p>
+          <ReactMarkdown>{localInsight.ai_explanation}</ReactMarkdown>
         </div>
       ) : (
         <button

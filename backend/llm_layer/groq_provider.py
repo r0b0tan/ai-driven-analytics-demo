@@ -23,7 +23,7 @@ class GroqProvider(BaseLLMProvider):
             model=self.model,
             messages=messages,
             temperature=0.2,
-            max_tokens=1024,
+            max_tokens=2048,
         )
         content = response.choices[0].message.content
         return re.sub(r"<think>.*?</think>\s*", "", content, flags=re.DOTALL)

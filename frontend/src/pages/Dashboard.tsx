@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { getInsights, getSuggestions, investigate } from "../api/client";
 import type { Insight, InvestigationResult, PipelineStep, Suggestion } from "../types";
 import EvidencePanel from "../components/EvidencePanel";
@@ -143,7 +144,7 @@ export default function Dashboard() {
                 <span className="ai-badge">AI Analyst</span>
                 <span className="ai-answer__question">{result.question}</span>
               </div>
-              <p className="ai-answer__text">{result.answer}</p>
+              <div className="ai-answer__text"><ReactMarkdown>{result.answer}</ReactMarkdown></div>
             </div>
           </section>
         )}

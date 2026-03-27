@@ -468,6 +468,12 @@ html, body, #root {
   font-size: 14px;
 }
 
+.ai-answer__text p { margin-bottom: 8px; }
+.ai-answer__text p:last-child { margin-bottom: 0; }
+.ai-answer__text ol, .ai-answer__text ul { margin: 8px 0; padding-left: 20px; }
+.ai-answer__text li { margin-bottom: 4px; }
+.ai-answer__text strong { color: var(--text-primary); font-weight: 600; }
+
 .ai-badge {
   display: inline-flex;
   align-items: center;
@@ -732,7 +738,12 @@ html, body, #root {
   font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.6;
+  margin-bottom: 6px;
 }
+.insight-card__ai-explanation p:last-child { margin-bottom: 0; }
+.insight-card__ai-explanation ol, .insight-card__ai-explanation ul { margin: 6px 0; padding-left: 18px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.insight-card__ai-explanation li { margin-bottom: 4px; }
+.insight-card__ai-explanation strong { color: var(--text-primary); font-weight: 600; }
 
 /* ── Suggestion card ─────────────────────────────────────────────────────── */
 .suggestion-card {
@@ -815,7 +826,12 @@ html, body, #root {
   font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.6;
+  margin-bottom: 6px;
 }
+.suggestion-card__ai-explanation p:last-child { margin-bottom: 0; }
+.suggestion-card__ai-explanation ol, .suggestion-card__ai-explanation ul { margin: 6px 0; padding-left: 18px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.suggestion-card__ai-explanation li { margin-bottom: 4px; }
+.suggestion-card__ai-explanation strong { color: var(--text-primary); font-weight: 600; }
 
 .suggestion-card__footer {
   display: flex;
