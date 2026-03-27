@@ -109,6 +109,10 @@ export default function InsightCard({ insight, onExplained }: Props) {
 
       {localInsight.ai_explanation ? (
         <div className="insight-card__ai-explanation">
+          <div className="ai-explanation__meta">
+            <span className="ai-explanation__rule">⚙ Detected by analytics pipeline</span>
+            <span className="ai-explanation__conf">Confidence: {(localInsight.confidence * 100).toFixed(0)}%</span>
+          </div>
           <span className="ai-badge">AI Explanation</span>
           <ReactMarkdown>{localInsight.ai_explanation}</ReactMarkdown>
         </div>

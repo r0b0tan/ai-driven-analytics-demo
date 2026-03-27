@@ -63,6 +63,10 @@ export default function SuggestionCard({ suggestion }: Props) {
 
       {local.ai_explanation && (
         <div className="suggestion-card__ai-explanation">
+          <div className="ai-explanation__meta">
+            <span className="ai-explanation__rule">⚙ Decision triggered by rule: <code>{local.decision_trace.rule}</code></span>
+            <span className="ai-explanation__conf">Confidence: {(local.confidence * 100).toFixed(0)}%</span>
+          </div>
           <span className="ai-badge">AI Explanation</span>
           <ReactMarkdown>{local.ai_explanation}</ReactMarkdown>
         </div>

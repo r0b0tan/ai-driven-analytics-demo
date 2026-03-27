@@ -109,8 +109,7 @@ html, body, #root {
 .main-content {
   margin-left: var(--sidebar-w);
   flex: 1;
-  padding: 32px;
-  max-width: 1200px;
+  padding: 32px 48px;
 }
 
 /* ── Page header ─────────────────────────────────────────────────────────── */
@@ -489,6 +488,32 @@ html, body, #root {
   flex-shrink: 0;
 }
 
+.ai-explanation__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #6366f122;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ai-explanation__meta code {
+  font-size: 10px;
+  background: var(--bg-elevated);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+
+.ai-explanation__conf {
+  white-space: nowrap;
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* ── Evidence panel ──────────────────────────────────────────────────────── */
 .evidence-panel {
   background: var(--bg-surface);
@@ -620,8 +645,8 @@ html, body, #root {
 /* ── Card grid ───────────────────────────────────────────────────────────── */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 20px;
 }
 
 /* ── Insight card ────────────────────────────────────────────────────────── */
