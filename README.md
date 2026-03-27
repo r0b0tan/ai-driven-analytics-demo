@@ -18,9 +18,9 @@ User Question
 │    → Segment Analysis → Contribution        │
 │                                             │
 │  Insight Engine → Suggestion Engine         │
-│       (structured)    (with decision trace) │
+│    (structured)   (with decision trace)     │
 │                                             │
-│  LLM Layer (Ollama / Groq)                 │
+│  LLM Layer (Ollama / Groq)                  │
 │    narrates findings only                   │
 └─────────────────┬───────────────────────────┘
                   │
