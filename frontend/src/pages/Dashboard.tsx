@@ -19,11 +19,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeSection, setActiveSection] = useState("investigation");
+  const [activeSection, setActiveSection] = useState<typeof SECTIONS[number]>("investigation");
   const clickLockRef = useRef(false);
 
   // Click sets active immediately, pauses scroll detection briefly
-  const handleNavClick = useCallback((id: string) => {
+  const handleNavClick = useCallback((id: typeof SECTIONS[number]) => {
     setActiveSection(id);
     clickLockRef.current = true;
     setTimeout(() => { clickLockRef.current = false; }, 800);
@@ -33,7 +33,7 @@ export default function Dashboard() {
   useEffect(() => {
     const handleScroll = () => {
       if (clickLockRef.current) return;
-      let current = SECTIONS[0];
+      let current: typeof SECTIONS[number] = SECTIONS[0];
       for (const id of SECTIONS) {
         const el = document.getElementById(id);
         if (el) {
