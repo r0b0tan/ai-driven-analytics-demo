@@ -12,7 +12,7 @@ import type {
 } from "../types";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "https://aidata.christophbauer.dev/api",
   timeout: 60_000,
 });
 
