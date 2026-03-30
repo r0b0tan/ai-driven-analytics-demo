@@ -50,11 +50,13 @@ export default function SegmentChart({
           tickFormatter={(v: number) => v >= 1000 ? `${(v / 1000).toFixed(1)}k` : String(v)}
         />
         <Tooltip
-          contentStyle={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: 6 }}
-          labelStyle={{ color: "#94a3b8" }}
+          contentStyle={{ background: "#1e293b", border: "1px solid #334155", borderRadius: 6 }}
+          labelStyle={{ color: "#cbd5e1" }}
+          itemStyle={{ color: "#f1f5f9" }}
+          cursor={false}
           formatter={(v: unknown) => [(v as number).toLocaleString(), metric]}
         />
-        <Bar dataKey="value" radius={[3, 3, 0, 0]}>
+        <Bar dataKey="value" radius={[3, 3, 0, 0]} activeBar={{ filter: "brightness(1.4)" }}>
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}

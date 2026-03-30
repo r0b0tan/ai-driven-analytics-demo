@@ -15,7 +15,7 @@ export default function EvidencePanel() {
   const [kpi, setKpi] = useState<KpiSummary>({});
   const [segments, setSegments] = useState<SegmentPerformance[]>([]);
   const [selectedMetric, setSelectedMetric] = useState<Metric>("clicks");
-  const [selectedCampaign, setSelectedCampaign] = useState("Campaign A");
+  const [selectedCampaign, setSelectedCampaign] = useState("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,6 +32,10 @@ export default function EvidencePanel() {
   }, []);
 
   useEffect(() => {
+    if (selectedCampaign === "all") {
+      setSegments([]);
+      return;
+    }
     getSegments(selectedCampaign, "audience")
       .then(setSegments)
       .catch(console.error);
@@ -42,6 +46,10 @@ export default function EvidencePanel() {
   }
 
   const campaigns = Object.keys(timeseries);
+  const filteredTimeseries =
+    selectedCampaign === "all"
+      ? timeseries
+      : { [selectedCampaign]: timeseries[selectedCampaign] };
 
   return (
     <div className="evidence-panel">
@@ -69,6 +77,7 @@ export default function EvidencePanel() {
             value={selectedCampaign}
             onChange={(e) => setSelectedCampaign(e.target.value)}
           >
+            <option value="all">All</option>
             {campaigns.map((c) => (
               <option key={c} value={c}>{c}</option>
             ))}
@@ -85,7 +94,7 @@ export default function EvidencePanel() {
           )}
         </h4>
         <TimeSeriesChart
-          data={timeseries}
+          data={filteredTimeseries}
           metric={selectedMetric}
           anomalies={anomalies}
         />
@@ -95,12 +104,12 @@ export default function EvidencePanel() {
         {/* Segment breakdown */}
         <div className="chart-card chart-card--half">
           <h4 className="chart-title">
-            {selectedCampaign} — Audience Clicks
+            {selectedCampaign === "all" ? "Select a campaign" : `${selectedCampaign} — Audience Clicks`}
           </h4>
           {segments.length > 0 ? (
             <SegmentChart segments={segments} metric="clicks" />
           ) : (
-            <p className="text-muted">No segment data</p>
+            <p className="text-muted">{selectedCampaign === "all" ? "Select a campaign to see segments" : "No segment data"}</p>
           )}
         </div>
 

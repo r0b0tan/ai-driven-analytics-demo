@@ -39,10 +39,13 @@ export default function CpaChart({ kpi, height = 200 }: Props) {
             tickFormatter={(v: number) => `$${v.toFixed(0)}`}
           />
           <Tooltip
-            contentStyle={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: 6 }}
+            contentStyle={{ background: "#1e293b", border: "1px solid #334155", borderRadius: 6 }}
+            labelStyle={{ color: "#cbd5e1" }}
+            itemStyle={{ color: "#f1f5f9" }}
+            cursor={false}
             formatter={(v: unknown) => [`$${(v as number).toFixed(2)}`, "CPA"]}
           />
-          <Bar dataKey="cpa" radius={[3, 3, 0, 0]}>
+          <Bar dataKey="cpa" radius={[3, 3, 0, 0]} activeBar={{ filter: "brightness(1.4)" }}>
             {data.map((entry, i) => (
               <Cell
                 key={i}
