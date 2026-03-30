@@ -9,8 +9,8 @@ interface Props {
 export default function ModelSelector({ onProviderChange }: Props) {
   const [options, setOptions] = useState<ModelOptions | null>(null);
   const [selected, setSelected] = useState<ProviderInfo>({
-    provider: "ollama",
-    model: "llama3",
+    provider: "groq",
+    model: "llama-3.3-70b-versatile",
   });
   const [health, setHealth] = useState<boolean | null>(null);
   const [saving, setSaving] = useState(false);
@@ -65,23 +65,10 @@ export default function ModelSelector({ onProviderChange }: Props) {
       <div className="model-selector__field">
         <label>Provider</label>
         <div className="model-selector__radio-group">
-          {(["ollama", "groq"] as const).map((p) => (
-            <label key={p} className="model-selector__radio-label">
-              <input
-                type="radio"
-                name="provider"
-                value={p}
-                checked={selected.provider === p}
-                onChange={() =>
-                  setSelected((prev) => ({
-                    provider: p,
-                    model: options?.models[p]?.[0] ?? prev.model,
-                  }))
-                }
-              />
-              {p === "ollama" ? "Ollama (Local)" : "Groq (Cloud)"}
-            </label>
-          ))}
+          <label className="model-selector__radio-label">
+            <input type="radio" name="provider" value="groq" checked readOnly />
+            Groq (Cloud)
+          </label>
         </div>
       </div>
 

@@ -4,10 +4,11 @@ FastAPI route definitions.
 from __future__ import annotations
 
 import json
+import os
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from analytics.pipeline import run_pipeline
 from config.llm_config import PROVIDER_MODELS
@@ -54,8 +55,8 @@ class ProviderRequest(BaseModel):
 
 
 class QuestionRequest(BaseModel):
-    question: str
-    context_hint: str | None = None
+    question: str = Field(..., max_length=500)
+    context_hint: str | None = Field(None, max_length=200)
 
 
 class ExplainInsightRequest(BaseModel):
@@ -75,8 +76,11 @@ def get_current_provider():
 
 @router.post("/llm/provider")
 def update_provider(req: ProviderRequest):
+    allowed = os.getenv("LLM_PROVIDER", "ollama")
     if req.provider not in ("ollama", "groq"):
         raise HTTPException(400, f"Unknown provider: {req.provider!r}")
+    if req.provider != allowed:
+        raise HTTPException(403, f"Provider {req.provider!r} is not enabled on this server")
     set_provider(req.provider, req.model)
     return {"status": "ok", **get_provider_info()}
 

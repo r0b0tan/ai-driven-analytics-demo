@@ -23,12 +23,14 @@ app = FastAPI(
     title="AI-Driven Analytics Demo",
     description="Explainable AI analytics for marketing performance data.",
     version="1.0.0",
+    docs_url=None,
+    redoc_url=None,
 )
 
 # CORS — allow Vite dev server
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://aidata.christophbauer.dev"],
+    allow_origins=["https://aidata.christophbauer.dev", "http://localhost:5173", "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
